@@ -27,3 +27,9 @@ Thumbs.db
 
 # Ignore VS Code settings (may contain sensitive DB credentials)
 .vscode/
+
+# Ignore SSL/TLS certificates and private keys
+certs/*.pem
+certs/*.key
+*.key
+*.pem

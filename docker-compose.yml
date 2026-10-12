@@ -41,6 +41,13 @@ services:
       DB_NAME: ${DB_NAME}
       DB_PORT: ${DB_PORT:-5432}
       DB_DIALECT: ${DB_DIALECT:-postgres}
+      # SSL Configuration (provide either content or path variables)
+      DB_SSL_CA: ${DB_SSL_CA:-}
+      DB_SSL_CA_PATH: ${DB_SSL_CA_PATH:-}
+      DB_SSL_KEY: ${DB_SSL_KEY:-}
+      DB_SSL_KEY_PATH: ${DB_SSL_KEY_PATH:-}
+      DB_SSL_CERT: ${DB_SSL_CERT:-}
+      DB_SSL_CERT_PATH: ${DB_SSL_CERT_PATH:-}
     networks: [judge_net]
   server:
     image: theinfinity1410/local-flask:latest
