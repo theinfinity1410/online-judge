@@ -1,11 +1,6 @@
 const { Sequelize } = require('sequelize');
 const dotenv = require('dotenv').config();
-
-
-// import { Sequelize } from 'sequelize';
-// import fs from 'fs';
 const fs = require('fs');
-// import dotenv from 'dotenv';
 
 const DB_HOST = process.env.DB_HOST;
 const DB_USER = process.env.DB_USER;
@@ -20,6 +15,79 @@ if (!DB_HOST || !DB_USER || !DB_PASS || !DB_NAME) {
 
 console.log(`Connecting to database: ${DB_NAME} at ${DB_HOST}:${DB_PORT}`);
 
+/**
+ * Load SSL certificate/key from environment variable or file path.
+ * Supports both inline PEM content (with \n as literal string or escaped newlines)
+ * and file paths.
+ * 
+ * @param {string} contentEnvVar - Environment variable name containing PEM content
+ * @param {string} pathEnvVar - Environment variable name containing file path
+ * @param {string} description - Description for error messages
+ * @returns {string|null} - PEM content or null if not configured
+ */
+function loadSSLFile(contentEnvVar, pathEnvVar, description) {
+  const content = process.env[contentEnvVar];
+  const path = process.env[pathEnvVar];
+
+  if (content) {
+    // Handle both literal \n in env var and actual newlines
+    // Replace literal \n string with actual newlines
+    return content.replace(/\\n/g, '\n');
+  }
+
+  if (path) {
+    try {
+      return fs.readFileSync(path, 'utf8');
+    } catch (error) {
+      throw new Error(`Failed to read ${description} from path '${path}': ${error.message}`);
+    }
+  }
+
+  return null;
+}
+
+// Load SSL certificates/keys from environment variables or file paths
+const sslCA = loadSSLFile('DB_SSL_CA', 'DB_SSL_CA_PATH', 'SSL CA certificate');
+const sslKey = loadSSLFile('DB_SSL_KEY', 'DB_SSL_KEY_PATH', 'SSL client key');
+const sslCert = loadSSLFile('DB_SSL_CERT', 'DB_SSL_CERT_PATH', 'SSL client certificate');
+
+// Determine if SSL is configured
+const sslConfigured = sslCA || sslKey || sslCert;
+
+// Build dialectOptions based on SSL configuration
+let dialectOptions = {};
+
+if (sslConfigured) {
+  // SSL is partially or fully configured
+  if (!sslCA || !sslKey || !sslCert) {
+    const missing = [];
+    if (!sslCA) missing.push('DB_SSL_CA or DB_SSL_CA_PATH');
+    if (!sslKey) missing.push('DB_SSL_KEY or DB_SSL_KEY_PATH');
+    if (!sslCert) missing.push('DB_SSL_CERT or DB_SSL_CERT_PATH');
+    
+    throw new Error(
+      `Incomplete SSL configuration. All three SSL components are required when SSL is enabled.\n` +
+      `Missing: ${missing.join(', ')}\n` +
+      `Either provide all SSL environment variables or none to disable SSL.`
+    );
+  }
+
+  console.log('Database SSL: Enabled (using environment-provided certificates)');
+  dialectOptions = {
+    ssl: {
+      require: true,
+      rejectUnauthorized: false,
+      ca: sslCA,
+      key: sslKey,
+      cert: sslCert,
+    },
+  };
+} else {
+  // No SSL configuration provided
+  console.log('Database SSL: Disabled (no SSL certificates configured)');
+  // dialectOptions remains empty, SSL will not be used
+}
+
 const sequelize = new Sequelize(
   DB_NAME,
   DB_USER,
@@ -28,29 +96,10 @@ const sequelize = new Sequelize(
     host: DB_HOST,
     port: DB_PORT,
     dialect: DB_DIALECT,
-    dialectOptions: {
-      ssl: {
-        require: true,
-        rejectUnauthorized: false,
-        ca: fs.readFileSync('./certs/server-ca.pem').toString(),
-        key: fs.readFileSync('./certs/client-key.pem').toString(),
-        cert: fs.readFileSync('./certs/client-cert.pem').toString(),
-      },
-    },
+    dialectOptions,
     logging: false,
   }
 );
-
-// export default sequelize;
-// const sequelize = new Sequelize(process.env.DB_URL, {
-//   dialect: 'postgres',
-//   protocol: 'postgres',
-//   logging: false,
-//   define: {
-//     timestamps: true,
-//     underscored: true,
-//   },
-// });
 
 // Test connection function
 const testDBConnection = async () => {

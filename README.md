@@ -52,14 +52,124 @@ This application requires several environment variables to be configured. **Neve
 - `BACKEND_HOST` - Backend service hostname
 - `BACKEND_PORT` - Backend service port
 
-### SSL/TLS Certificates
+### SSL/TLS Certificates for Database Connections
 
-The application uses SSL certificates for secure database connections. Ensure you have the following files in the `certs/` directory:
-- `server-ca.pem` - Server CA certificate
-- `client-cert.pem` - Client certificate
-- `client-key.pem` - Client private key
+The application supports SSL/TLS encrypted connections to PostgreSQL databases. SSL configuration is **optional** but recommended for production deployments.
 
-**Important:** The `client-key.pem` file contains a private key. Never commit this to version control or share it publicly. If the private key in this repository has been exposed, generate a new one immediately.
+#### Configuring SSL Certificates
+
+You have two options for providing SSL certificates:
+
+**Option 1: Environment Variables (Recommended for Docker/Cloud)**
+
+Set the PEM certificate content directly in environment variables. Use `\n` for newlines:
+
+```bash
+DB_SSL_CA="-----BEGIN CERTIFICATE-----\nMIID...\n-----END CERTIFICATE-----"
+DB_SSL_KEY="-----BEGIN RSA PRIVATE KEY-----\nMIIE...\n-----END RSA PRIVATE KEY-----"
+DB_SSL_CERT="-----BEGIN CERTIFICATE-----\nMIID...\n-----END CERTIFICATE-----"
+```
+
+**Option 2: File Paths**
+
+Provide paths to certificate files (useful for local development):
+
+```bash
+DB_SSL_CA_PATH=/path/to/server-ca.pem
+DB_SSL_KEY_PATH=/path/to/client-key.pem
+DB_SSL_CERT_PATH=/path/to/client-cert.pem
+```
+
+#### Generating New SSL Certificates
+
+If you need to generate new client certificates for database authentication:
+
+```bash
+# 1. Generate a new private key (keep this secure!)
+openssl genrsa -out client-key.pem 2048
+
+# 2. Create a certificate signing request (CSR)
+openssl req -new -key client-key.pem -out client.csr
+
+# 3. Get the CSR signed by your database CA
+# For Google Cloud SQL:
+#   - Go to Cloud SQL instance → Connections → Security
+#   - Create a new client certificate
+#   - Download server-ca.pem, client-cert.pem, and use your generated key
+
+# For other providers, follow their SSL certificate documentation
+```
+
+#### Important SSL Security Notes
+
+- **All three SSL components** (CA certificate, client key, client certificate) are required together
+- If you set ANY SSL environment variable, you MUST set all three
+- The application will fail with a clear error if SSL configuration is incomplete
+- **NEVER commit private keys** (`client-key.pem`) to version control
+- Store private keys in secure secret management systems (AWS Secrets Manager, HashiCorp Vault, etc.)
+- Rotate certificates immediately if a private key has been exposed
+- The `certs/` directory is now excluded from version control
+
+#### SSL Configuration for Docker Deployments
+
+When using Docker Compose, you have several options:
+
+**Option A: Environment Variables (Most Secure)**
+
+Add SSL certificate content to your `.env` file or set them in your deployment environment:
+
+```bash
+# .env file
+DB_SSL_CA="-----BEGIN CERTIFICATE-----\n..."
+DB_SSL_KEY="-----BEGIN RSA PRIVATE KEY-----\n..."
+DB_SSL_CERT="-----BEGIN CERTIFICATE-----\n..."
+```
+
+**Option B: Docker Secrets (Recommended for Production)**
+
+Use Docker secrets to securely provide certificates:
+
+```yaml
+services:
+  backend:
+    secrets:
+      - db_ssl_ca
+      - db_ssl_key
+      - db_ssl_cert
+    environment:
+      DB_SSL_CA_PATH: /run/secrets/db_ssl_ca
+      DB_SSL_KEY_PATH: /run/secrets/db_ssl_key
+      DB_SSL_CERT_PATH: /run/secrets/db_ssl_cert
+
+secrets:
+  db_ssl_ca:
+    file: ./secrets/server-ca.pem
+  db_ssl_key:
+    file: ./secrets/client-key.pem
+  db_ssl_cert:
+    file: ./secrets/client-cert.pem
+```
+
+**Option C: Volume Mounts (For Testing Only)**
+
+Mount a local directory with certificates:
+
+```yaml
+services:
+  backend:
+    volumes:
+      - ./certs:/certs:ro
+    environment:
+      DB_SSL_CA_PATH: /certs/server-ca.pem
+      DB_SSL_KEY_PATH: /certs/client-key.pem
+      DB_SSL_CERT_PATH: /certs/client-cert.pem
+```
+
+**⚠️ Warning:** Keep the `certs/` directory out of version control and ensure proper file permissions.
+
+#### Disabling SSL (Not Recommended for Production)
+
+If your database does not require SSL (e.g., local development), simply omit all SSL environment variables. The application will connect without SSL encryption.
 
 ### Running the Application
 
