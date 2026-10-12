@@ -26,7 +26,7 @@ def load_data(pid, path):
 
     r.set(f"{pid}/count", i)
 
-    # ✅ Add solution.cpp if it exists
+    # Add solution.cpp if it exists
     solution_path = os.path.join(path, "solution.cpp")
     if os.path.exists(solution_path):
         with open(solution_path, "r") as f:

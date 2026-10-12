@@ -57,10 +57,10 @@ const testDBConnection = async () => {
   try {
     console.log(DB_PASS);
     await sequelize.authenticate();
-    console.log(`✅ Connected to ${DB_DIALECT} database at ${DB_HOST}:${DB_PORT}`);
+    console.log(`Connected to ${DB_DIALECT} database at ${DB_HOST}:${DB_PORT}`);
     return true;
   } catch (error) {
-    console.error('❌ Unable to connect to the database:', error);
+    console.error('Unable to connect to the database:', error);
     return false;
   }
 };

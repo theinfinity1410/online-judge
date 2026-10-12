@@ -47,7 +47,7 @@ initSocket(server, {
 });
 
 // Routes
-app.get("/", (req, res) => res.send("🚀 Online Judge API is running..."));
+app.get("/", (req, res) => res.send("Online Judge API is running..."));
 app.use("/admin", adminRoutes);
 app.use("/user", userRoutes);
 app.use("/problems", problemroutes);
@@ -64,11 +64,11 @@ const PORT = process.env.PORT || 3000;
 
 sequelize.sync()
   .then(() => {
-    console.log("✅ Database connected & synced");
+    console.log("Database connected & synced");
     server.listen(PORT, '0.0.0.0', () => {
-      console.log(`🚀 Server running at http://localhost:${PORT}`);
+      console.log(`Server running at http://localhost:${PORT}`);
     });
   })
   .catch((err) => {
-    console.error("❌ Failed to connect DB:", err);
+    console.error("Failed to connect DB:", err);
   });

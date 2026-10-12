@@ -1,26 +1,26 @@
-# Online Judge Platform 🏆
+# Online Judge Platform
 
 A comprehensive online competitive programming platform built with a modern microservices architecture, featuring automated code execution, containerized runtimes, real-time submission results, contests, and scalable background workers.
 
-## 🎥 Demo
+## Demo
 https://private-user-images.githubusercontent.com/175551506/634070612-4d1bf1d7-d6e5-4658-b608-58bfb94dd4a3.mp4?jwt=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJnaXRodWIuY29tIiwiYXVkIjoicmF3LmdpdGh1YnVzZXJjb250ZW50LmNvbSIsImtleSI6ImtleTUiLCJleHAiOjE3ODY0MjkzNDgsIm5iZiI6MTc4NjQyOTA0OCwicGF0aCI6Ii8xNzU1NTE1MDYvNjM0MDcwNjEyLTRkMWJmMWQ3LWQ2ZTUtNDY1OC1iNjA4LTU4YmZiOTRkZDRhMy5tcDQ_WC1BbXotQWxnb3JpdGhtPUFXUzQtSE1BQy1TSEEyNTYmWC1BbXotQ3JlZGVudGlhbD1BS0lBVkNPRFlMU0E1M1BRSzRaQSUyRjIwMjYwODExJTJGdXMtZWFzdC0xJTJGczMlMkZhd3M0X3JlcXVlc3QmWC1BbXotRGF0ZT0yMDI2MDgxMVQwNjE3MjhaJlgtQW16LUV4cGlyZXM9MzAwJlgtQW16LVNpZ25hdHVyZT03NGFjYmQ1M2UwMTk0ZjQ2NDExNmQ4YzYzZjNhYzlkZmZiZGI5OTY4N2M5NTYxZWY3ZmMzNjk5YzAwNDgzNWUyJlgtQW16LVNpZ25lZEhlYWRlcnM9aG9zdCZyZXNwb25zZS1jb250ZW50LXR5cGU9dmlkZW8lMkZtcDQifQ.F9x1BL4DjwIG4xISWIK-Gfxd4Z_kHaWheaswipbMLTQ
 
 ---
 
-## 🌟 Platform Highlights
+## Platform Highlights
 
-* 🚀 **Online Code Execution** - Submit and execute solutions in multiple programming languages.
-* 🏗️ **Microservices Architecture** - Separates API handling, task queuing, and code execution.
-* 🐳 **Containerized Execution** - Runs submitted code inside isolated Docker containers.
-* ⚡ **Real-Time Results** - Provides submission status and execution results.
-* 🏆 **Competitive Programming** - Supports problems, submissions, contests, and leaderboards.
-* 👥 **Team Competitions** - Supports collaborative/team-based contests.
-* 🔐 **Secure Authentication** - JWT-based authentication and authorization.
-* 📈 **Scalable Execution** - Background workers allow multiple submissions to be processed concurrently.
+* **Online Code Execution** - Submit and execute solutions in multiple programming languages.
+* **Microservices Architecture** - Separates API handling, task queuing, and code execution.
+* **Containerized Execution** - Runs submitted code inside isolated Docker containers.
+* **Real-Time Results** - Provides submission status and execution results.
+* **Competitive Programming** - Supports problems, submissions, contests, and leaderboards.
+* **Team Competitions** - Supports collaborative/team-based contests.
+* **Secure Authentication** - JWT-based authentication and authorization.
+* **Scalable Execution** - Background workers allow multiple submissions to be processed concurrently.
 
 ---
 
-## 🛠️ Technology Stack
+## Technology Stack
 
 <div align="center">
 
@@ -51,7 +51,7 @@ https://private-user-images.githubusercontent.com/175551506/634070612-4d1bf1d7-d
 
 ---
 
-## 🏗️ System Architecture
+## System Architecture
 
 ```mermaid
 graph TB
@@ -92,9 +92,9 @@ graph TB
 ```
 ---
 
-## ✨ Features
+## Features
 
-### 👤 User Management
+### User Management
 
 * User registration
 * User authentication
@@ -102,7 +102,7 @@ graph TB
 * Profile management
 * User-specific submissions
 
-### 🧩 Problem Management
+### Problem Management
 
 * Browse programming problems
 * Create problems
@@ -111,7 +111,7 @@ graph TB
 * Organize programming challenges
 * Test solutions against predefined test cases
 
-### 💻 Multi-Language Code Execution
+### Multi-Language Code Execution
 
 The platform supports execution in multiple programming languages, including:
 
@@ -121,19 +121,19 @@ The platform supports execution in multiple programming languages, including:
 
 Each submission is executed in an isolated runtime environment.
 
-### ⚡ Online Judge
+### Online Judge
 
 The judging system evaluates submitted solutions against test cases and determines the final result.
 
 Supported outcomes include:
 
-* ✅ Accepted
-* ❌ Wrong Answer
-* ⚠️ Runtime Error
-* ⏱️ Time Limit Exceeded
-* 🔴 Compilation Error
+* Accepted
+* Wrong Answer
+* Runtime Error
+* Time Limit Exceeded
+* Compilation Error
 
-### 🏆 Contests
+### Contests
 
 * Contest creation
 * Contest participation
@@ -142,15 +142,15 @@ Supported outcomes include:
 * Live standings
 * Leaderboards
 
-### 👥 Team Competitions
+### Team Competitions
 
 The platform also supports team-based competitive programming contests, allowing multiple users to participate collaboratively.
 
-### 📊 Leaderboards
+### Leaderboards
 
 Dynamic leaderboards provide rankings based on contest performance and submissions.
 
-### 🔐 Security
+### Security
 
 * JWT authentication
 * Role-based authorization
@@ -162,7 +162,7 @@ Dynamic leaderboards provide rankings based on contest performance and submissio
 
 ---
 
-## 🐳 Docker Architecture
+## Docker Architecture
 
 The application is composed of multiple services.
 
@@ -206,7 +206,7 @@ Scaling the workers allows multiple code execution jobs to be processed concurre
 
 ---
 
-## 🔐 Code Execution Security
+## Code Execution Security
 
 Running arbitrary user-submitted code is one of the most important challenges in an online judge.
 
@@ -227,7 +227,7 @@ This provides a safer execution environment for untrusted user code.
 
 ---
 
-## 📊 Scalability
+## Scalability
 
 The asynchronous execution architecture allows the platform to handle multiple submissions without blocking the main API server.
 
@@ -254,7 +254,7 @@ This provides horizontal scalability for the compute-intensive code execution la
 
 ---
 
-## 🗄️ Data Storage
+## Data Storage
 
 PostgreSQL is used as the primary persistent database.
 
@@ -278,7 +278,7 @@ Redis is used for:
 
 ---
 
-## 📈 Performance Considerations
+## Performance Considerations
 
 The architecture separates request handling from code execution.
 
@@ -296,7 +296,7 @@ Key performance techniques include:
 
 ---
 
-## 🧠 Key Engineering Challenges
+## Key Engineering Challenges
 
 ### 1. Running Untrusted Code
 
@@ -330,7 +330,7 @@ The project contains multiple independent services.
 
 ---
 
-## 📁 High-Level Architecture
+## High-Level Architecture
 
 ```text
 my-online-judge/
@@ -358,7 +358,7 @@ my-online-judge/
 > Adjust the directory structure above if your actual repository structure differs.
 
 ---
-## 📚 Inspiration
+## Inspiration
 
 The project takes inspiration from competitive programming platforms such as:
 

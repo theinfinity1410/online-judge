@@ -46,7 +46,7 @@ const User = sequelize.define('User', {
     defaultValue: false,
   },
 }, {
-  tableName: 'user', // 👈 lowercase to avoid quoted "User"
+  tableName: 'user', // lowercase to avoid quoted "User"
   timestamps: false,
 });
 
