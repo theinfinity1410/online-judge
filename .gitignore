@@ -24,3 +24,6 @@ dist/
 # Ignore OS/system files
 .DS_Store
 Thumbs.db
+
+# Ignore VS Code settings (may contain sensitive DB credentials)
+.vscode/
