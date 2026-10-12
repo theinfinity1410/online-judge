@@ -9,14 +9,14 @@ https://private-user-images.githubusercontent.com/175551506/634070612-4d1bf1d7-d
 
 ## Platform Highlights
 
-* **Online Code Execution** - Submit and execute solutions in multiple programming languages.
-* **Microservices Architecture** - Separates API handling, task queuing, and code execution.
-* **Containerized Execution** - Runs submitted code inside isolated Docker containers.
-* **Real-Time Results** - Provides submission status and execution results.
-* **Competitive Programming** - Supports problems, submissions, contests, and leaderboards.
-* **Team Competitions** - Supports collaborative/team-based contests.
-* **Secure Authentication** - JWT-based authentication and authorization.
-* **Scalable Execution** - Background workers allow multiple submissions to be processed concurrently.
+* **Online Code Execution** - Users submit solutions in more than one language and the platform runs them.
+* **Microservices Architecture** - API requests, job queues, and program execution are handled by separate services.
+* **Containerized Execution** - Each submitted program runs inside its own Docker container.
+* **Real-Time Results** - Submission status and run outcomes are returned as they become available.
+* **Competitive Programming** - The site includes problems, submissions, contests, and leaderboards.
+* **Team Competitions** - Contests can be entered by teams working together.
+* **Secure Authentication** - Sign-in and access control use JSON Web Tokens.
+* **Scalable Execution** - Background workers can judge several submissions at the same time.
 
 ---
 
@@ -36,18 +36,18 @@ https://private-user-images.githubusercontent.com/175551506/634070612-4d1bf1d7-d
 
 ### Backend
 
-* **Node.js + Express.js** - Main API server handling authentication, problems, contests, and submissions.
-* **Flask** - Microservice responsible for receiving and queuing execution requests.
-* **Celery** - Distributed task queue used to process code execution jobs.
-* **PostgreSQL** - Persistent storage for users, problems, contests, and submissions.
-* **Redis** - Message broker and result/cache storage.
+* **Node.js + Express.js** - The main API. It covers sign-in, problems, contests, and submissions.
+* **Flask** - A separate service that accepts execution requests and places them on a queue.
+* **Celery** - A distributed queue that carries out code-execution jobs.
+* **PostgreSQL** - Long-term storage for users, problems, contests, and submissions.
+* **Redis** - Message broker, plus storage for results and cached data.
 
 ### DevOps & Infrastructure
 
-* **Docker & Docker Compose** - Containerization and multi-service orchestration.
-* **Google Cloud Platform** - Application hosting.
-* **Let's Encrypt** - SSL certificates.
-* **GoDaddy** - Domain/DNS management.
+* **Docker & Docker Compose** - Packages each service and starts them together.
+* **Google Cloud Platform** - Hosts the application.
+* **Let's Encrypt** - Issues the SSL certificates.
+* **GoDaddy** - Manages the domain and DNS.
 
 ---
 
@@ -96,36 +96,36 @@ graph TB
 
 ### User Management
 
-* User registration
-* User authentication
-* JWT-based authorization
+* Account registration
+* Sign-in
+* Authorization with JWTs
 * Profile management
-* User-specific submissions
+* Submissions tied to a specific user
 
 ### Problem Management
 
-* Browse programming problems
-* Create problems
-* Edit problems
-* Delete problems
-* Organize programming challenges
-* Test solutions against predefined test cases
+* Browse the problem list
+* Add a problem
+* Update a problem
+* Remove a problem
+* Group programming challenges
+* Check a solution against a fixed set of test cases
 
 ### Multi-Language Code Execution
 
-The platform supports execution in multiple programming languages, including:
+Submitted programs can be run in more than one language, including:
 
 * C++
 * Python
 * Java
 
-Each submission is executed in an isolated runtime environment.
+Every submission runs in a runtime kept separate from the rest of the system.
 
 ### Online Judge
 
-The judging system evaluates submitted solutions against test cases and determines the final result.
+Submitted code is checked against the problem's test cases, and that check produces a final verdict.
 
-Supported outcomes include:
+Possible verdicts:
 
 * Accepted
 * Wrong Answer
@@ -135,36 +135,36 @@ Supported outcomes include:
 
 ### Contests
 
-* Contest creation
-* Contest participation
-* Contest problems
-* Submission tracking
-* Live standings
-* Leaderboards
+* Create a contest
+* Enter a contest
+* Attach problems to a contest
+* Track submissions
+* Show standings while a contest is running
+* Rank participants on a leaderboard
 
 ### Team Competitions
 
-The platform also supports team-based competitive programming contests, allowing multiple users to participate collaboratively.
+Contests can also be run for teams, so several users can compete together on the same entry.
 
 ### Leaderboards
 
-Dynamic leaderboards provide rankings based on contest performance and submissions.
+Rankings update from contest results and from submissions.
 
 ### Security
 
-* JWT authentication
-* Role-based authorization
-* Password hashing
-* Isolated code execution
-* Docker-based sandboxing
-* Resource restrictions
-* HTTPS communication
+* Authentication with JWTs
+* Authorization by role
+* Hashed passwords
+* Execution kept apart from the host
+* A Docker sandbox around each run
+* Limits on the resources a program may use
+* Traffic sent over HTTPS
 
 ---
 
 ## Docker Architecture
 
-The application is composed of multiple services.
+The application is made up of several services.
 
 ```text
                  ┌──────────────────┐
@@ -202,36 +202,36 @@ The application is composed of multiple services.
                             └─────────────────┘
 ```
 
-Scaling the workers allows multiple code execution jobs to be processed concurrently.
+Adding more workers lets more execution jobs run at the same time.
 
 ---
 
 ## Code Execution Security
 
-Running arbitrary user-submitted code is one of the most important challenges in an online judge.
+An online judge has to run programs that users wrote, and that code cannot be trusted. That is one of the central problems this kind of system has to solve.
 
-The platform addresses this using Docker-based isolation.
+Isolation here is done with Docker.
 
-Each submission is executed inside a separate container, preventing the submitted program from directly interacting with the host environment.
+Each submission gets its own container, so the program cannot reach the host directly.
 
-The execution environment can enforce:
+That environment can limit or control:
 
-* CPU limits
-* Memory limits
-* Execution time limits
-* Filesystem restrictions
-* Network restrictions
-* Container cleanup after execution
+* CPU use
+* Memory use
+* How long the program may run
+* What it can do with the filesystem
+* Whether it can use the network
+* Removal of the container once the run ends
 
-This provides a safer execution environment for untrusted user code.
+The result is a safer place to run code that did not come from the platform itself.
 
 ---
 
 ## Scalability
 
-The asynchronous execution architecture allows the platform to handle multiple submissions without blocking the main API server.
+Because execution is asynchronous, many submissions can be in progress while the main API keeps answering requests.
 
-Instead of executing code directly inside the API process:
+Programs are not run inside the API process:
 
 ```text
 User
@@ -248,17 +248,17 @@ Queue
  └── Worker N
 ```
 
-Additional workers can be added as submission traffic increases.
+More workers can be started when more submissions arrive.
 
-This provides horizontal scalability for the compute-intensive code execution layer.
+That lets the execution tier, which does the heavy computing, grow by adding workers.
 
 ---
 
 ## Data Storage
 
-PostgreSQL is used as the primary persistent database.
+PostgreSQL is the main database, and the data stored there is kept permanently.
 
-It stores information such as:
+Records kept there include:
 
 * Users
 * Problems
@@ -269,30 +269,30 @@ It stores information such as:
 * Submission results
 * Contest standings
 
-Redis is used for:
+Redis handles:
 
-* Task queuing
-* Temporary execution results
-* Fast result retrieval
-* Communication between execution components
+* Queuing tasks
+* Holding execution results for a short time
+* Reading those results quickly
+* Passing information between the pieces that run code
 
 ---
 
 ## Performance Considerations
 
-The architecture separates request handling from code execution.
+Handling an incoming request and actually running the submitted program are separate steps.
 
-This prevents long-running submissions from blocking the API server.
+A submission that takes a long time therefore does not stall the API.
 
-Key performance techniques include:
+The main techniques used for speed are:
 
 * Asynchronous task processing
-* Redis-based queues
-* Multiple Celery workers
-* Database indexing
-* Containerized execution
-* Result caching
-* Horizontal worker scaling
+* Queues backed by Redis
+* More than one Celery worker
+* Indexes on the database
+* Running programs in containers
+* Caching results
+* Adding workers as load grows
 
 ---
 
@@ -300,33 +300,33 @@ Key performance techniques include:
 
 ### 1. Running Untrusted Code
 
-The platform needs to execute arbitrary user programs without compromising the host machine.
+User programs have to be executed without letting them damage the machine they run on.
 
-**Solution:** Docker-based isolated execution environments with resource restrictions.
+**Solution:** Isolated Docker environments that also cap resource use.
 
 ### 2. Long-Running Submissions
 
-Code execution can take significantly longer than normal API requests.
+Judging a program often takes much longer than a typical API call.
 
-**Solution:** Move execution into asynchronous Celery workers.
+**Solution:** Hand that work to Celery workers that run asynchronously.
 
 ### 3. Concurrent Submissions
 
-Multiple users may submit code simultaneously.
+Several people can submit at the same time.
 
-**Solution:** Redis-backed task queues and horizontally scalable workers.
+**Solution:** Queues in Redis, with workers that can be scaled out.
 
 ### 4. Reliable Result Retrieval
 
-The API should remain responsive while workers execute submissions.
+The API needs to stay responsive while workers are still judging.
 
-**Solution:** Store execution state/results separately and retrieve them asynchronously.
+**Solution:** Keep execution state and results in a separate store, and read them back asynchronously.
 
 ### 5. Deployment
 
-The project contains multiple independent services.
+The project is made of several services that run on their own.
 
-**Solution:** Docker Compose for orchestration and GitHub Actions for automated deployment.
+**Solution:** Docker Compose starts them together, and GitHub Actions deploys them automatically.
 
 ---
 
@@ -355,19 +355,19 @@ my-online-judge/
 └── README.md
 ```
 
-> Adjust the directory structure above if your actual repository structure differs.
+> Update the tree above so it matches the layout of this repository.
 
 ---
 ## Inspiration
 
-The project takes inspiration from competitive programming platforms such as:
+The design follows ideas from existing competitive programming sites, including:
 
 * Codeforces
 * LeetCode
 * AtCoder
 * HackerRank
 
-The goal is to combine a competitive programming interface with a scalable backend capable of safely executing untrusted code.
+The aim is a contest-style interface on top of a backend that can grow with load and can run untrusted code safely.
 
 ---
 
