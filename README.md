@@ -371,25 +371,7 @@ The goal is to combine a competitive programming interface with a scalable backe
 
 ---
 
-## 👨‍💻 Author
-
-**Maitreya Vaidya**
-
-GitHub: [@maitreya-16](https://github.com/maitreya-16)
-
 ---
-
-## ⭐ Support
-
-If you found this project interesting, consider giving the repository a ⭐.
-
-[⭐ Star the Repository](https://github.com/maitreya-16/my-online-judge)
-
----
-
-<div align="center">
-
-### Built with ❤️ and a lot of code
 
 **Online Judge Platform**
 

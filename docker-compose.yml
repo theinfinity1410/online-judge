@@ -9,7 +9,7 @@ services:
   #     - ./certbot/www:/var/www/certbot
   #   command: >
   #     certonly --webroot -w /var/www/certbot
-  #     --keep-until-expiring --email maitreyavaidyam@gmail.com
+  #     --keep-until-expiring --email swayamgosavi1410@gmail.com
   #     -d nccbackend.credenz.co.in --agree-tos
   #   networks: [judge_net]
   # nginx:
@@ -27,7 +27,7 @@ services:
   #     - backend
   #   networks: [judge_net]
   backend:
-    image: maitreya16/local-node-backend:latest  
+    image: theinfinity1410/local-node-backend:latest  
     container_name: node-backend
     ports:
       - "3000:3000"
@@ -38,7 +38,7 @@ services:
       DB_URL: postgresql://neondb_owner:npg_4vzRJqHVSu9a@ep-bold-bush-aeoqgqq0-pooler.c-2.us-east-2.aws.neon.tech/neondb?sslmode=require&channel_binding=require
     networks: [judge_net]
   server:
-    image: maitreya16/local-flask:latest
+    image: theinfinity1410/local-flask:latest
     container_name: flask-server
     restart: always
     command: python workers/server.py
@@ -47,7 +47,7 @@ services:
     networks: [judge_net]
 
   worker:
-    image: maitreya16/local-flask:latest
+    image: theinfinity1410/local-flask:latest
     container_name: flask-worker
     restart: always
     command: >
@@ -58,7 +58,7 @@ services:
     depends_on:
       - redis
     environment:
-      HOST_MACHINE_BASE_DIR: /home/ajuubhaiug/OJ  # Change this to your actual path  
+      HOST_MACHINE_BASE_DIR: /home/astravps/OJ  # Change this to your actual path  
       PYTHONPATH: /app
       REDIS_HOST: redis
       REDIS_PORT: 6379
