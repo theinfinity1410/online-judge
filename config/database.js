@@ -7,18 +7,18 @@ const dotenv = require('dotenv').config();
 const fs = require('fs');
 // import dotenv from 'dotenv';
 
+const DB_HOST = process.env.DB_HOST;
+const DB_USER = process.env.DB_USER;
+const DB_PASS = process.env.DB_PASSWORD;
+const DB_NAME = process.env.DB_NAME;
+const DB_PORT = process.env.DB_PORT || 5432;
+const DB_DIALECT = process.env.DB_DIALECT || 'postgres';
 
-const DB_HOST = "34.93.234.239";
-const DB_USER = "postgres";
-const DB_PASS = "Postgres25@";
-const DB_NAME = "rcdb";
-const DB_PORT = 5432;
-const DB_DIALECT = 'postgres';
-console.log(DB_PASS);
-console.log(DB_HOST);
-console.log(DB_USER);
-console.log(DB_NAME);
-console.log(DB_PORT);
+if (!DB_HOST || !DB_USER || !DB_PASS || !DB_NAME) {
+  throw new Error('Missing required database environment variables: DB_HOST, DB_USER, DB_PASSWORD, DB_NAME');
+}
+
+console.log(`Connecting to database: ${DB_NAME} at ${DB_HOST}:${DB_PORT}`);
 
 const sequelize = new Sequelize(
   DB_NAME,
@@ -55,7 +55,6 @@ const sequelize = new Sequelize(
 // Test connection function
 const testDBConnection = async () => {
   try {
-    console.log(DB_PASS);
     await sequelize.authenticate();
     console.log(`Connected to ${DB_DIALECT} database at ${DB_HOST}:${DB_PORT}`);
     return true;
@@ -70,4 +69,3 @@ module.exports = sequelize;
 
 // Export test function separately if needed
 module.exports.testDBConnection = testDBConnection;
-

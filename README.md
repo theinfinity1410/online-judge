@@ -3,7 +3,90 @@
 A comprehensive online competitive programming platform built with a modern microservices architecture, featuring automated code execution, containerized runtimes, real-time submission results, contests, and scalable background workers.
 
 ## Demo
-https://private-user-images.githubusercontent.com/175551506/634070612-4d1bf1d7-d6e5-4658-b608-58bfb94dd4a3.mp4?jwt=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJnaXRodWIuY29tIiwiYXVkIjoicmF3LmdpdGh1YnVzZXJjb250ZW50LmNvbSIsImtleSI6ImtleTUiLCJleHAiOjE3ODY0MjkzNDgsIm5iZiI6MTc4NjQyOTA0OCwicGF0aCI6Ii8xNzU1NTE1MDYvNjM0MDcwNjEyLTRkMWJmMWQ3LWQ2ZTUtNDY1OC1iNjA4LTU4YmZiOTRkZDRhMy5tcDQ_WC1BbXotQWxnb3JpdGhtPUFXUzQtSE1BQy1TSEEyNTYmWC1BbXotQ3JlZGVudGlhbD1BS0lBVkNPRFlMU0E1M1BRSzRaQSUyRjIwMjYwODExJTJGdXMtZWFzdC0xJTJGczMlMkZhd3M0X3JlcXVlc3QmWC1BbXotRGF0ZT0yMDI2MDgxMVQwNjE3MjhaJlgtQW16LUV4cGlyZXM9MzAwJlgtQW16LVNpZ25hdHVyZT03NGFjYmQ1M2UwMTk0ZjQ2NDExNmQ4YzYzZjNhYzlkZmZiZGI5OTY4N2M5NTYxZWY3ZmMzNjk5YzAwNDgzNWUyJlgtQW16LVNpZ25lZEhlYWRlcnM9aG9zdCZyZXNwb25zZS1jb250ZW50LXR5cGU9dmlkZW8lMkZtcDQifQ.F9x1BL4DjwIG4xISWIK-Gfxd4Z_kHaWheaswipbMLTQ
+[Video demonstration available - contact repository owner for access]
+
+---
+
+## Setup Instructions
+
+### Prerequisites
+
+- Node.js (v14 or higher)
+- Docker and Docker Compose
+- PostgreSQL database
+- Redis
+
+### Environment Configuration
+
+This application requires several environment variables to be configured. **Never commit actual credentials to the repository.**
+
+1. Copy the example environment file:
+   ```bash
+   cp .env.example .env
+   ```
+
+2. Edit `.env` and configure the following required variables:
+
+#### Database Configuration
+- `DB_HOST` - Your PostgreSQL database host address
+- `DB_PORT` - Database port (default: 5432)
+- `DB_NAME` - Database name
+- `DB_USER` - Database username
+- `DB_PASSWORD` - Database password
+- `DB_DIALECT` - Database dialect (default: postgres)
+
+#### Security
+- `JWT_SECRET` - A strong random secret key for JWT token signing (generate with `openssl rand -hex 32`)
+
+#### Server
+- `PORT` - API server port (default: 3000)
+- `NODE_ENV` - Environment (production/development)
+
+#### Redis & Workers
+- `REDIS_BROKER_URL` - Redis connection URL for Celery broker
+- `REDIS_BACKEND_URL` - Redis connection URL for results backend
+- `REDIS_HOST` - Redis host (default: redis)
+- `REDIS_PORT` - Redis port (default: 6379)
+
+#### Backend Communication
+- `BACKEND_HOST` - Backend service hostname
+- `BACKEND_PORT` - Backend service port
+
+### SSL/TLS Certificates
+
+The application uses SSL certificates for secure database connections. Ensure you have the following files in the `certs/` directory:
+- `server-ca.pem` - Server CA certificate
+- `client-cert.pem` - Client certificate
+- `client-key.pem` - Client private key
+
+**Important:** The `client-key.pem` file contains a private key. Never commit this to version control or share it publicly. If the private key in this repository has been exposed, generate a new one immediately.
+
+### Running the Application
+
+#### Using Docker Compose
+
+```bash
+docker-compose up -d
+```
+
+#### Manual Setup
+
+1. Install dependencies:
+   ```bash
+   npm install
+   ```
+
+2. Start the services:
+   ```bash
+   npm start
+   ```
+
+### Security Notes
+
+- Always use strong, randomly generated values for `JWT_SECRET`
+- Never commit `.env` files or actual credentials to the repository
+- Rotate all credentials if they have been exposed
+- Use environment-specific configurations for development, staging, and production
 
 ---
 
